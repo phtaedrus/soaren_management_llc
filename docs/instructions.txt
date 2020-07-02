@@ -1,0 +1,57 @@
+Background
+We are part of a bidding process for leads called the “ping tree”. We have a spot saved for us at $75,
+where we can decide if we would like to purchase the lead at $75, or bid a lower price. The lower the
+price, the less likely that we win the bid. Currently we are set up to bid only at $75, $50, $35, and $3.
+After the lead is purchased, we will try to convert it into a loan.
+Fields
+BidPrice: If this is populated, then we bid this price for this lead
+AcceptedBid: This will tell you if the bid was accepted (we “won” the bid)
+ExpectedRevenue: This is the amount of revenue we expect to get from the lead if it turns into a
+loan. Three things need to happen for us to get any revenue:
+
+1. We need to bid
+2. We need to win the bid
+3. We need to convert the lead into a loan
+
+ExpectedConversion: This is the expected conversion rate of lead into loan.
+Example
+Let’s say we bid on 20 leads. For simplicity, let’s say we bid $50 on each, and that all 20 are exactly the
+same:
+ExpectedRevenue ExpectedConversion
+150 0.4
+Let’s also say we win 10 of these bids and lose 10.
+The 10 bids we lost have no revenue or costs.
+The 10 bids we won cost $50 each – so $500 total cost.
+They each have an expected revenue of $150, and they each have an expected conversion of 40%.
+10 Leads * 40% Conversion = 4 Loans
+4 Loans * $150 Revenue = $600 Total Revenue
+So for this example, we have $600 in total revenue, and $500 in costs – so we have a net revenue of
+$100.
+Problem
+We want to see what we could be doing better with our bidding. Given the expected revenue and
+conversion, and the likelihood of the lead being chosen at a specific price, can you build a model or set
+of rules that would increase our net revenue?
+A very simple ruleset could look something like this:
+If ExpectedRevenue * ExpectedConversion > 100, (Bid 75)
+Else If ExpectedRevenue * ExpectedConversion > 75, (Bid 50)
+Else If ExpectedRevenue * ExpectedConversion > 50, (Bid 35)
+Else If ExpectedRevenue * ExpectedConversion > 20, (Bid 3)
+Else (Don’t Bid)
+If you can come up with something more elegant, even better!
+
+Notes
+• You can assume that Expected Revenue and Expected Conversion are accurate.
+• We have a specific volume of leads that the call center can handle, so we want the number of
+leads purchased (AcceptedBid = 1) with your rules to be within 5% of the leads we actually
+purchased (15224 - 16827).
+• Because of the above variability, please optimize your rules for NetRevenue/AcceptedBid
+instead of raw NetRevenue.
+• Assume we can ONLY bid at the only at $75, $50, $35, and $3 price points. i/e you can’t bid $7.
+• On that note, we don’t NEED to bid at any specific price. If you decide that we should only bid $3
+on leads, that’s perfectly fine.
+• Remember you can only bid once. If you decide to bid at $50, and the bid is lost then that lead
+is lost
+• Please be as detailed as possible in presenting your results. We want to see what steps you
+used, what technology you used. Did you try something that didn’t work? What assumptions did
+you make? We also want to see the actual code used.
+• For a sanity check, the net revenue for the file for the bids that actually happened is $1,207,654.
